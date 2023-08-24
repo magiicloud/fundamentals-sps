@@ -16,7 +16,7 @@ var outputMsg = function (
 ) {
   //define the messages
   var replayMsg = 'Type "scissors" "paper" or "stone" to play another round~';
-  var msgTemplate = `You played ${playerHandSign} ${playerHandSignIcon} <br> PC played ${pcHandSign} ${pcHandSignIcon} <br> <br> You won! ${replayMsg} <br> <br> <br> Scoreboard: <br> You won: ${userWon} <br> PC won: ${pcWon} <br> You win ${winRate}% of the time"`;
+  var msgTemplate = `You played ${playerHandSign} ${playerHandSignIcon} <br> PC played ${pcHandSign} ${pcHandSignIcon} <br> <br> You won! ${replayMsg} <br> <br> <br> Scoreboard: <br> You won: ${userWon} <br> PC won: ${pcWon} <br> Draw: ${gameDraw} <br> You win ${winRate}% of the time`;
   var winningMsg = `Congrats ${userName}! <br> ${msgTemplate}`;
   var losingMsg = `Awww ${userName}... <br> ${msgTemplate}`;
   var drawMsg = `Still got chance ${userName}~ <br> ${msgTemplate}`;
