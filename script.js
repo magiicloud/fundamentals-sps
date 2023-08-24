@@ -86,11 +86,11 @@ var playReverseGame = function (pcHandSign, playerHandSign) {
 var getIcon = function (inputHandSign) {
   if (inputHandSign == "scissors") {
     return "✂️";
-  } else if (inputHandSign == "paper") {
+  }
+  if (inputHandSign == "paper") {
     return "🗒";
-  } else if (inputHandSign == "stone") {
-    return "🪨";
-  } else return "nothing";
+  }
+  return "🪨";
 };
 
 //assign 123 to scissors paper and stone respectively
