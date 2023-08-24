@@ -3,33 +3,105 @@ var pcWon = 0;
 var gameDraw = 0;
 var totalGames = 0;
 var winRate = 0;
+var gameMode = "";
+var userName = "";
 
 var main = function (input) {
-  //generate pc handsign
-  var pcHandSign = assignNum();
-  var pcHandSignIcon = getIcon(pcHandSign);
-  console.log("pc handsign");
-  console.log(pcHandSign);
-  console.log(pcHandSignIcon);
+  //enter your name
+  if (userName == "" && input !== "") {
+    userName = input;
+    return `Welcome ${userName}! Please enter "normal" or "reverse" to select game mode!`;
+  } else if (userName == "" && input == "") {
+    return `Please enter your name`;
+  }
 
-  //input = player handsign
-  var playerHandSign = input;
-  var playerHandSignIcon = getIcon(playerHandSign);
-  console.log("player handsign");
-  console.log(playerHandSign);
-  console.log(playerHandSignIcon);
+  //select game mode
+  if (gameMode == "" && (input == "normal" || input == "reverse")) {
+    gameMode = input;
+    return `Hi ${userName}, you have chose to play the ${gameMode} game. Input "scissors", "paper" or "stone" to begin!`;
+  } else if (gameMode == "normal" || gameMode == "reverse") {
+    //validate input to be scissors paper or stone
+    if (input !== "scissors" && input !== "paper" && input !== "stone") {
+      return `Please enter "scissors", "paper" or "stone".`;
+    }
 
+    //generate pc handsign
+    var pcHandSign = assignNum();
+    var pcHandSignIcon = getIcon(pcHandSign);
+    console.log("pc handsign");
+    console.log(pcHandSign);
+    console.log(pcHandSignIcon);
+
+    //input = player handsign
+    var playerHandSign = input;
+    var playerHandSignIcon = getIcon(playerHandSign);
+    console.log("player handsign");
+    console.log(playerHandSign);
+    console.log(playerHandSignIcon);
+
+    //start NORMAL game play mechanics
+    if (gameMode == "normal") {
+      var gamePlayStart = playNormalGame(
+        pcHandSign,
+        playerHandSign,
+        pcHandSignIcon,
+        playerHandSignIcon
+      );
+    } else if (gameMode == "reverse") {
+      var gamePlayStart = playReverseGame(
+        pcHandSign,
+        playerHandSign,
+        pcHandSignIcon,
+        playerHandSignIcon
+      );
+    }
+
+    //get the result msg by parsing the win lose draw
+    var showFinalMsg = outputMsg(
+      gamePlayStart,
+      pcHandSign,
+      playerHandSign,
+      pcHandSignIcon,
+      playerHandSignIcon
+    );
+
+    return showFinalMsg;
+
+    //if did not enter normal or reverse
+  } else return `Please enter either "normal" or "reverse"!`;
+};
+
+//generate the output messages
+var outputMsg = function (
+  gameOutcome,
+  pcHandSign,
+  playerHandSign,
+  pcHandSignIcon,
+  playerHandSignIcon
+) {
   //define the messages
   var replayMsg = 'Type "scissors" "paper" or "stone" to play another round~';
-  var winningMsg = `You played ${playerHandSign} ${playerHandSignIcon} <br> PC played ${pcHandSign} ${pcHandSignIcon} <br> <br> You won! <br> <br> <br> ${replayMsg}`;
-  var losingMsg = `You played ${playerHandSign} ${playerHandSignIcon} <br> PC played ${pcHandSign} ${pcHandSignIcon} <br> <br> You lost! <br> <br> <br> ${replayMsg}`;
-  var drawMsg = `You played ${playerHandSign} ${playerHandSignIcon} <br> PC played ${pcHandSign} ${pcHandSignIcon} <br> <br> It's a draw! <br> <br> <br> ${replayMsg}`;
+  var winningMsg = `Congrats ${userName}! <br> You played ${playerHandSign} ${playerHandSignIcon} <br> PC played ${pcHandSign} ${pcHandSignIcon} <br> <br> You won! ${replayMsg} <br> <br> <br> Scoreboard: <br> You won: ${userWon} <br> PC won: ${pcWon} <br> You win ${winRate}% of the time`;
+  var losingMsg = `Awww ${userName}... <br> You played ${playerHandSign} ${playerHandSignIcon} <br> PC played ${pcHandSign} ${pcHandSignIcon} <br> <br> You lost! ${replayMsg} <br> <br> <br> Scoreboard: <br> You won: ${userWon} <br> PC won: ${pcWon} <br> You win ${winRate}% of the time`;
+  var drawMsg = `Still got chance ${userName}~ <br> You played ${playerHandSign} ${playerHandSignIcon} <br> PC played ${pcHandSign} ${pcHandSignIcon} <br> <br> It's a draw! ${replayMsg} <br> <br> <br> Scoreboard: <br> You won: ${userWon} <br> PC won: ${pcWon} <br> You win ${winRate}% of the time`;
 
-  //conditions of the game
+  if (gameOutcome == "win") {
+    return winningMsg;
+  } else if (gameOutcome == "draw") {
+    return drawMsg;
+  } else if (gameOutcome == "lose") {
+    return losingMsg;
+  }
+};
+
+//normal game mechanics function
+var playNormalGame = function (pcHandSign, playerHandSign) {
+  var gameOutcome = "";
   if (pcHandSign == playerHandSign) {
     gameDraw = gameDraw + 1;
     totalGames = totalGames + 1;
     winRate = (userWon / totalGames) * 100;
+    gameOutcome = "draw";
     console.log("user win");
     console.log(userWon);
     console.log("pc win");
@@ -38,11 +110,12 @@ var main = function (input) {
     console.log(gameDraw);
     console.log("total games");
     console.log(totalGames);
-    return `${drawMsg} <br> <br> <br> Stats: <br> You won: ${userWon} <br> PC won: ${pcWon} <br> You win ${winRate}%`;
+    return gameOutcome;
   } else if (pcHandSign == "scissors" && playerHandSign !== "stone") {
     pcWon = pcWon + 1;
     totalGames = totalGames + 1;
     winRate = (userWon / totalGames) * 100;
+    gameOutcome = "lose";
     console.log("user win");
     console.log(userWon);
     console.log("pc win");
@@ -51,11 +124,12 @@ var main = function (input) {
     console.log(gameDraw);
     console.log("total games");
     console.log(totalGames);
-    return `${losingMsg} <br> <br> <br> Stats: <br> You won: ${userWon} <br> PC won: ${pcWon} <br> You win ${winRate}%`;
+    return gameOutcome;
   } else if (pcHandSign == "paper" && playerHandSign !== "scissors") {
     pcWon = pcWon + 1;
     totalGames = totalGames + 1;
     winRate = (userWon / totalGames) * 100;
+    gameOutcome = "lose";
     console.log("user win");
     console.log(userWon);
     console.log("pc win");
@@ -64,11 +138,12 @@ var main = function (input) {
     console.log(gameDraw);
     console.log("total games");
     console.log(totalGames);
-    return `${losingMsg} <br> <br> <br> Stats: <br> You won: ${userWon} <br> PC won: ${pcWon} <br> You win ${winRate}%`;
+    return gameOutcome;
   } else if (pcHandSign == "stone" && playerHandSign !== "paper") {
     pcWon = pcWon + 1;
     totalGames = totalGames + 1;
     winRate = (userWon / totalGames) * 100;
+    gameOutcome = "lose";
     console.log("user win");
     console.log(userWon);
     console.log("pc win");
@@ -77,10 +152,11 @@ var main = function (input) {
     console.log(gameDraw);
     console.log("total games");
     console.log(totalGames);
-    return `${losingMsg} <br> <br> <br> Stats: <br> You won: ${userWon} <br> PC won: ${pcWon} <br> You win ${winRate}%`;
+    return gameOutcome;
   } else userWon = userWon + 1;
   totalGames = totalGames + 1;
   winRate = (userWon / totalGames) * 100;
+  gameOutcome = "win";
   console.log("user win");
   console.log(userWon);
   console.log("pc win");
@@ -89,7 +165,81 @@ var main = function (input) {
   console.log(gameDraw);
   console.log("total games");
   console.log(totalGames);
-  return `${winningMsg} <br> <br> <br> Stats: <br> You won: ${userWon} <br> PC won: ${pcWon} <br> You win ${winRate}%`;
+  return gameOutcome;
+};
+
+//reverse game mechanics function
+var playReverseGame = function (pcHandSign, playerHandSign) {
+  var gameOutcome = "";
+  if (pcHandSign == playerHandSign) {
+    gameDraw = gameDraw + 1;
+    totalGames = totalGames + 1;
+    winRate = (userWon / totalGames) * 100;
+    gameOutcome = "draw";
+    console.log("user win");
+    console.log(userWon);
+    console.log("pc win");
+    console.log(pcWon);
+    console.log("draw");
+    console.log(gameDraw);
+    console.log("total games");
+    console.log(totalGames);
+    return gameOutcome;
+  } else if (pcHandSign == "scissors" && playerHandSign !== "paper") {
+    pcWon = pcWon + 1;
+    totalGames = totalGames + 1;
+    winRate = (userWon / totalGames) * 100;
+    gameOutcome = "lose";
+    console.log("user win");
+    console.log(userWon);
+    console.log("pc win");
+    console.log(pcWon);
+    console.log("draw");
+    console.log(gameDraw);
+    console.log("total games");
+    console.log(totalGames);
+    return gameOutcome;
+  } else if (pcHandSign == "paper" && playerHandSign !== "stone") {
+    pcWon = pcWon + 1;
+    totalGames = totalGames + 1;
+    winRate = (userWon / totalGames) * 100;
+    gameOutcome = "lose";
+    console.log("user win");
+    console.log(userWon);
+    console.log("pc win");
+    console.log(pcWon);
+    console.log("draw");
+    console.log(gameDraw);
+    console.log("total games");
+    console.log(totalGames);
+    return gameOutcome;
+  } else if (pcHandSign == "stone" && playerHandSign !== "scissors") {
+    pcWon = pcWon + 1;
+    totalGames = totalGames + 1;
+    winRate = (userWon / totalGames) * 100;
+    gameOutcome = "lose";
+    console.log("user win");
+    console.log(userWon);
+    console.log("pc win");
+    console.log(pcWon);
+    console.log("draw");
+    console.log(gameDraw);
+    console.log("total games");
+    console.log(totalGames);
+    return gameOutcome;
+  } else userWon = userWon + 1;
+  totalGames = totalGames + 1;
+  winRate = (userWon / totalGames) * 100;
+  gameOutcome = "win";
+  console.log("user win");
+  console.log(userWon);
+  console.log("pc win");
+  console.log(pcWon);
+  console.log("draw");
+  console.log(gameDraw);
+  console.log("total games");
+  console.log(totalGames);
+  return gameOutcome;
 };
 
 //generate icon as per scissors paper or stone
