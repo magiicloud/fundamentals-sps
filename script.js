@@ -16,9 +16,10 @@ var outputMsg = function (
 ) {
   //define the messages
   var replayMsg = 'Type "scissors" "paper" or "stone" to play another round~';
-  var winningMsg = `Congrats ${userName}! <br> You played ${playerHandSign} ${playerHandSignIcon} <br> PC played ${pcHandSign} ${pcHandSignIcon} <br> <br> You won! ${replayMsg} <br> <br> <br> Scoreboard: <br> You won: ${userWon} <br> PC won: ${pcWon} <br> You win ${winRate}% of the time`;
-  var losingMsg = `Awww ${userName}... <br> You played ${playerHandSign} ${playerHandSignIcon} <br> PC played ${pcHandSign} ${pcHandSignIcon} <br> <br> You lost! ${replayMsg} <br> <br> <br> Scoreboard: <br> You won: ${userWon} <br> PC won: ${pcWon} <br> You win ${winRate}% of the time`;
-  var drawMsg = `Still got chance ${userName}~ <br> You played ${playerHandSign} ${playerHandSignIcon} <br> PC played ${pcHandSign} ${pcHandSignIcon} <br> <br> It's a draw! ${replayMsg} <br> <br> <br> Scoreboard: <br> You won: ${userWon} <br> PC won: ${pcWon} <br> You win ${winRate}% of the time`;
+  var msgTemplate = `You played ${playerHandSign} ${playerHandSignIcon} <br> PC played ${pcHandSign} ${pcHandSignIcon} <br> <br> You won! ${replayMsg} <br> <br> <br> Scoreboard: <br> You won: ${userWon} <br> PC won: ${pcWon} <br> You win ${winRate}% of the time"`;
+  var winningMsg = `Congrats ${userName}! <br> ${msgTemplate}`;
+  var losingMsg = `Awww ${userName}... <br> ${msgTemplate}`;
+  var drawMsg = `Still got chance ${userName}~ <br> ${msgTemplate}`;
 
   if (gameOutcome == "win") {
     return winningMsg;
