@@ -61,31 +61,23 @@ var playNormalGame = function (pcHandSign, playerHandSign) {
 //reverse game mechanics function
 var playReverseGame = function (pcHandSign, playerHandSign) {
   var gameOutcome = "";
-  if (pcHandSign == playerHandSign) {
+  var normalGame = playNormalGame(pcHandSign, playerHandSign);
+  //if normal game win = reverse game lose
+  if (normalGame == "win") {
+    pcWon = pcWon + 1;
+    totalGames = totalGames + 1;
+    winRate = (userWon / totalGames) * 100;
+    gameOutcome = "lose";
+    return gameOutcome;
+  }
+  if (normalGame == "draw") {
     gameDraw = gameDraw + 1;
     totalGames = totalGames + 1;
     winRate = (userWon / totalGames) * 100;
     gameOutcome = "draw";
     return gameOutcome;
-  } else if (pcHandSign == "scissors" && playerHandSign !== "paper") {
-    pcWon = pcWon + 1;
-    totalGames = totalGames + 1;
-    winRate = (userWon / totalGames) * 100;
-    gameOutcome = "lose";
-    return gameOutcome;
-  } else if (pcHandSign == "paper" && playerHandSign !== "stone") {
-    pcWon = pcWon + 1;
-    totalGames = totalGames + 1;
-    winRate = (userWon / totalGames) * 100;
-    gameOutcome = "lose";
-    return gameOutcome;
-  } else if (pcHandSign == "stone" && playerHandSign !== "scissors") {
-    pcWon = pcWon + 1;
-    totalGames = totalGames + 1;
-    winRate = (userWon / totalGames) * 100;
-    gameOutcome = "lose";
-    return gameOutcome;
-  } else userWon = userWon + 1;
+  }
+  userWon = userWon + 1;
   totalGames = totalGames + 1;
   winRate = (userWon / totalGames) * 100;
   gameOutcome = "win";
