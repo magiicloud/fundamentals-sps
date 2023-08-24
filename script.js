@@ -23,11 +23,11 @@ var outputMsg = function (
 
   if (gameOutcome == "win") {
     return winningMsg;
-  } else if (gameOutcome == "draw") {
-    return drawMsg;
-  } else if (gameOutcome == "lose") {
-    return losingMsg;
   }
+  if (gameOutcome == "draw") {
+    return drawMsg;
+  }
+  return losingMsg;
 };
 
 //normal game mechanics function
