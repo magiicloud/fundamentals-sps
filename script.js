@@ -16,7 +16,9 @@ var outputMsg = function (
 ) {
   //define the messages
   var replayMsg = 'Type "scissors" "paper" or "stone" to play another round~';
-  var msgTemplate = `You played ${playerHandSign} ${playerHandSignIcon} <br> PC played ${pcHandSign} ${pcHandSignIcon} <br> <br> ${replayMsg} <br> <br> <br> Scoreboard: <br> You won: ${userWon} <br> PC won: ${pcWon} <br> Draw: ${gameDraw} <br> You win ${winRate}% of the time`;
+  var msgTemplate = `You played ${playerHandSign} ${playerHandSignIcon} <br> PC played ${pcHandSign} ${pcHandSignIcon} <br> <br> ${replayMsg} <br> <br> <br> Scoreboard: <br> You won: ${userWon} <br> PC won: ${pcWon} <br> Draw: ${gameDraw} <br> You win ${winRate.toFixed(
+    0
+  )}% of the time`;
   var winningMsg = `Congrats ${userName}! You won! <br> ${msgTemplate}`;
   var losingMsg = `Awww ${userName}... <br> ${msgTemplate}`;
   var drawMsg = `Still got chance ${userName}~ <br> ${msgTemplate}`;
@@ -125,7 +127,7 @@ var main = function (input) {
   //select game mode
   if (gameMode == "" && (input == "normal" || input == "reverse")) {
     gameMode = input;
-    return `Hi ${userName}, you have chose to play the ${gameMode} game. Input "scissors", "paper" or "stone" to begin!`;
+    return `Hi ${userName}, you have chosen the ${gameMode} game. Input "scissors", "paper" or "stone" to begin!`;
   } else if (gameMode == "normal" || gameMode == "reverse") {
     //validate input to be scissors paper or stone
     if (input !== "scissors" && input !== "paper" && input !== "stone") {
