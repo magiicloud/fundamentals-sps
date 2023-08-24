@@ -16,8 +16,8 @@ var outputMsg = function (
 ) {
   //define the messages
   var replayMsg = 'Type "scissors" "paper" or "stone" to play another round~';
-  var msgTemplate = `You played ${playerHandSign} ${playerHandSignIcon} <br> PC played ${pcHandSign} ${pcHandSignIcon} <br> <br> You won! ${replayMsg} <br> <br> <br> Scoreboard: <br> You won: ${userWon} <br> PC won: ${pcWon} <br> Draw: ${gameDraw} <br> You win ${winRate}% of the time`;
-  var winningMsg = `Congrats ${userName}! <br> ${msgTemplate}`;
+  var msgTemplate = `You played ${playerHandSign} ${playerHandSignIcon} <br> PC played ${pcHandSign} ${pcHandSignIcon} <br> <br> ${replayMsg} <br> <br> <br> Scoreboard: <br> You won: ${userWon} <br> PC won: ${pcWon} <br> Draw: ${gameDraw} <br> You win ${winRate}% of the time`;
+  var winningMsg = `Congrats ${userName}! You won! <br> ${msgTemplate}`;
   var losingMsg = `Awww ${userName}... <br> ${msgTemplate}`;
   var drawMsg = `Still got chance ${userName}~ <br> ${msgTemplate}`;
 
@@ -65,20 +65,18 @@ var playReverseGame = function (pcHandSign, playerHandSign) {
   //if normal game win = reverse game lose
   if (normalGame == "win") {
     pcWon = pcWon + 1;
-    totalGames = totalGames + 1;
+    userWon = userWon - 1;
     winRate = (userWon / totalGames) * 100;
     gameOutcome = "lose";
     return gameOutcome;
   }
   if (normalGame == "draw") {
-    gameDraw = gameDraw + 1;
-    totalGames = totalGames + 1;
     winRate = (userWon / totalGames) * 100;
     gameOutcome = "draw";
     return gameOutcome;
   }
   userWon = userWon + 1;
-  totalGames = totalGames + 1;
+  pcWon = pcWon - 1;
   winRate = (userWon / totalGames) * 100;
   gameOutcome = "win";
   return gameOutcome;
