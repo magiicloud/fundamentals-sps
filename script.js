@@ -39,25 +39,19 @@ var playNormalGame = function (pcHandSign, playerHandSign) {
     winRate = (userWon / totalGames) * 100;
     gameOutcome = "draw";
     return gameOutcome;
-  } else if (pcHandSign == "scissors" && playerHandSign !== "stone") {
+  }
+  if (
+    (pcHandSign == "scissors" && playerHandSign !== "stone") ||
+    (pcHandSign == "paper" && playerHandSign !== "scissors") ||
+    (pcHandSign == "stone" && playerHandSign !== "paper")
+  ) {
     pcWon = pcWon + 1;
     totalGames = totalGames + 1;
     winRate = (userWon / totalGames) * 100;
     gameOutcome = "lose";
     return gameOutcome;
-  } else if (pcHandSign == "paper" && playerHandSign !== "scissors") {
-    pcWon = pcWon + 1;
-    totalGames = totalGames + 1;
-    winRate = (userWon / totalGames) * 100;
-    gameOutcome = "lose";
-    return gameOutcome;
-  } else if (pcHandSign == "stone" && playerHandSign !== "paper") {
-    pcWon = pcWon + 1;
-    totalGames = totalGames + 1;
-    winRate = (userWon / totalGames) * 100;
-    gameOutcome = "lose";
-    return gameOutcome;
-  } else userWon = userWon + 1;
+  }
+  userWon = userWon + 1;
   totalGames = totalGames + 1;
   winRate = (userWon / totalGames) * 100;
   gameOutcome = "win";
